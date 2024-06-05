@@ -14,7 +14,7 @@ RELEASE="$(rpm -E %fedora)"
 
 # this installs a package from fedora repos
 rpm-ostree install screen
-rpm-ostree install /tmp/rpms/*.rpm
+rpm-ostree install /tmp/rpms/kmod/zfs/*.rpm
 
 # this would install a package from rpmfusion
 # rpm-ostree install vlc
