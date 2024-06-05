@@ -1,11 +1,11 @@
 ---
-name: build-ublue-custom
+name: build-silverblue-zfs
 on:
   pull_request:
     branches:
       - main
   schedule:
-    - cron: '05 10 * * *'  # 10:05am UTC everyday
+    - cron: '18 23 * * *'  # 1h after 0ranki/sb-zfs-kernel build
   push:
     branches:
       - main
@@ -19,8 +19,8 @@ env:
   IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"  # do not edit
 
 jobs:
-  build_push:
-    name: Build and push image
+  build_push_aurora:
+    name: Build and push Aurora image
     runs-on: ubuntu-latest
 
     permissions:
