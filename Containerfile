@@ -44,7 +44,7 @@ ARG SOURCE_TAG="39"
 FROM ghcr.io/ublue-os/${SOURCE_IMAGE}${SOURCE_SUFFIX}:${SOURCE_TAG}
 
 ### 2.1 Add ZFS RPMS
-COPY --from=ghcr.io/ublue-os/ucore-kmods:stable /rpms/kmod/zfs/ /tmp/rpms
+COPY --from=ghcr.io/ublue-os/ucore-kmods:stable /rpms/ /tmp/rpms
 
 
 ### 3. MODIFICATIONS
