@@ -43,8 +43,9 @@ ARG SOURCE_TAG="40"
 ## this is a standard Containerfile FROM using the build ARGs above to select the right upstream image
 FROM ghcr.io/ublue-os/${SOURCE_IMAGE}${SOURCE_SUFFIX}:${SOURCE_TAG}
 
-### 2.1 Add ZFS RPMS
-COPY --from=ghcr.io/ublue-os/ucore-kmods:stable /rpms/ /tmp/rpms
+### 2.1 Add ZFS RPMS and matching kernel RPMs
+COPY --from=ghcr.io/0ranki/sb-zfs-kernel /rpms/ /tmp/rpms
+COPY --from=ghcr.io/0ranki/sb-zfs-kernel /kernel/ /tmp/kernel
 
 
 ### 3. MODIFICATIONS
