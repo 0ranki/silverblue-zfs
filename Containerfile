@@ -15,7 +15,7 @@
 # - "base"
 #
 #  "aurora", "bazzite", "bluefin" or "ucore" may also be used but have different suffixes.
-ARG SOURCE_IMAGE="aurora"
+ARG SOURCE_IMAGE="silverlue"
 
 ## SOURCE_SUFFIX arg should include a hyphen and the appropriate suffix name
 # These examples all work for silverblue/kinoite/sericea/onyx/lazurite/vauxite/base
@@ -33,7 +33,7 @@ ARG SOURCE_IMAGE="aurora"
 # - stable-zfs
 # - stable-nvidia-zfs
 # - (and the above with testing rather than stable)
-ARG SOURCE_SUFFIX="-dx"
+ARG SOURCE_SUFFIX="-main"
 
 ## SOURCE_TAG arg must be a version built for the specific image: eg, 39, 40, gts, latest
 ARG SOURCE_TAG="40"
@@ -45,7 +45,7 @@ FROM ghcr.io/ublue-os/${SOURCE_IMAGE}${SOURCE_SUFFIX}:${SOURCE_TAG}
 
 ### 2.1 Add ZFS RPMS and matching kernel RPMs
 COPY --from=ghcr.io/0ranki/sb-zfs-kernel /rpms/ /tmp/rpms
-COPY --from=ghcr.io/0ranki/sb-zfs-kernel /kernel/ /tmp/kernel
+COPY --from=ghcr.io/0ranki/sb-zfs-kernel /kernel/ /tmp/rpms
 
 
 ### 3. MODIFICATIONS
