@@ -4,7 +4,7 @@ set -ouex pipefail
 
 RELEASE="$(rpm -E %fedora)"
 
-ZFS_KERNEL_VERSION="$(find /tmp/rpms/kmods/zfs/ -name "kmod-zfs*.rpm" | sed 's/.*\/kmod-zfs-//; s/\.fc.*$//')"
+ZFS_KERNEL_VERSION="$(find /tmp/rpms/kmods/zfs/ -name "kmod-zfs*.rpm" ! -name "*devel*" | sed 's/.*\/kmod-zfs-//; s/\.fc.*$//g' | head -1)"
 
 
 ### Install packages
