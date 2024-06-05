@@ -36,12 +36,15 @@ ARG SOURCE_IMAGE="silverblue"
 ARG SOURCE_SUFFIX="-main"
 
 ## SOURCE_TAG arg must be a version built for the specific image: eg, 39, 40, gts, latest
-ARG SOURCE_TAG="latest"
+ARG SOURCE_TAG="39"
 
 
 ### 2. SOURCE IMAGE
 ## this is a standard Containerfile FROM using the build ARGs above to select the right upstream image
 FROM ghcr.io/ublue-os/${SOURCE_IMAGE}${SOURCE_SUFFIX}:${SOURCE_TAG}
+
+### 2.1 Add ZFS RPMS
+COPY --from=ghcr.io/ublue-os/ucore-kmods:${SOURCE_TAG} /rpms/kmod/zfs/*.rpm /tmp/rpms
 
 
 ### 3. MODIFICATIONS
