@@ -15,12 +15,12 @@ on:
 
 env:
   MY_IMAGE_NAME: "${{ github.event.repository.name }}"  # the name of the image produced by this build, matches repo names
-  MY_IMAGE_DESC: "My Customized Universal Blue Image"
+  MY_IMAGE_DESC: "Universal Blue main image with ZFS"
   IMAGE_REGISTRY: "ghcr.io/${{ github.repository_owner }}"  # do not edit
 
 jobs:
   build_push_aurora:
-    name: Build and push Aurora image
+    name: Build and publish SB image with ZFS
     runs-on: ubuntu-latest
 
     permissions:
