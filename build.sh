@@ -17,7 +17,7 @@ ZFS_KERNEL_VERSION="$(find /tmp/rpms/kmods/zfs/ -name "kmod-zfs*.rpm" ! -name "*
 # this installs a package from fedora repos
 ls -la /tmp/kernel
 #rpm-ostree override remove kernel kernel-core kernel-modules kernel-modules-extra --replace /tmp/kernel/kernel*.rpm
-rpm-ostree install /tmp/kernel*.rpm --uninstall kernel kernel-core kernel-modules kernel-modules-extra
+rpm-ostree install /tmp/kernel/kernel*.rpm --uninstall kernel kernel-core kernel-modules kernel-modules-extra
 rpm-ostree override remove zfs-fuse --install /tmp/rpms/kmods/zfs/*.rpm
 
 # this would install a package from rpmfusion
