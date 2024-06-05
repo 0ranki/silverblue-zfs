@@ -54,7 +54,7 @@ RUN curl -L -O https://src.fedoraproject.org/rpms/fedora-repos/raw/f${FEDORA_VER
 RUN dnf install -y jq dkms gcc make autoconf automake libtool rpm-build libtirpc-devel libblkid-devel \
     libuuid-devel libudev-devel openssl-devel zlib-devel libaio-devel libattr-devel elfutils-libelf-devel \
     kernel-$(cat /kernel-version.txt) kernel-modules-$(cat /kernel-version.txt) kernel-devel-$(cat /kernel-version.txt) \
-    python3 python3-devel python3-setuptools python3-cffi libffi-devel git ncompress libcurl-devel fuse-overlayfs
+    python3 python3-devel python3-setuptools python3-cffi libffi-devel git ncompress libcurl-devel
 WORKDIR /
 # Uses project_id from: https://release-monitoring.org/project/11706/
 RUN curl "https://release-monitoring.org/api/v2/versions/?project_id=11706" | jq --raw-output '.stable_versions[0]' >> /zfs_version.txt
