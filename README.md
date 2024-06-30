@@ -1,5 +1,7 @@
 # Silverblue-ZFS
 
+[![build-silverblue-zfs](https://github.com/0ranki/silverblue-zfs/actions/workflows/build.yml/badge.svg)](https://github.com/0ranki/silverblue-zfs/actions/workflows/build.yml)
+
 This is a customized Universal Blue image with the OpenZFS kernel module installed.
 
 See [upstream Universal Blue](https://github.com/ublue-os/main/) repo for more detailed instructions how
@@ -7,7 +9,7 @@ to rebase to this image.
 
 The ZFS modules are built against the latest latest ublue-os:main image, Fedora 40 at the time of writing.
 Building the modules is basically taken straight from [Fedora CoreOS](https://github.com/coreos/layering-examples/tree/main/build-zfs-module)
-example, except the base image used to detect the correct version is `ublue-os:main`.
+example, except the base image used to detect the correct kernel version to build against is `ublue-os:main`.
 
 ## Known issues
 The build fails consistently once a week. Most likely Fedora repos are already serving a newer kernel version,
