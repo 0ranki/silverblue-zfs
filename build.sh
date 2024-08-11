@@ -24,6 +24,35 @@ ADDPKGS=(
 ## Add gregw/extras COPR
 curl -so /etc/yum.repos.d/gregw-extras-fedora-40.repo https://copr.fedorainfracloud.org/coprs/gregw/extras/repo/fedora-40/gregw-extras-fedora-40.repo
 
+## Add systemd timers for periodic ZFS scrubs
+cat << EOF > /usr/lib/systemd/zfs-scrub@.service
+[Unit]
+Description=zpool scrub on %i
+
+[Service]
+Nice=19
+IOSchedulingClass=idle
+KillSignal=SIGINT
+ExecStart=/usr/sbin/zpool scrub %i
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+cat << EOF > /usr/lib//systemd/system/zfs-scrub@.timer
+[Unit]
+Description=Weekly zpool scrub on %i
+
+[Timer]
+OnCalendar=Mon *-*-* 04:00:00
+AccuracySec=1h
+Persistent=true
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+
 RMSTRING=""
 ADDSTRING=""
 
