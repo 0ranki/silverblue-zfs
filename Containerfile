@@ -40,46 +40,28 @@ ARG SOURCE_TAG="40"
 
 ARG FEDORA_VERSION=40
 
-### 2. Build ZFS module
-## Adated from https://github.com/coreos/layering-examples/blob/main/build-zfs-module/Containerfile
-FROM ghcr.io/ublue-os/${SOURCE_IMAGE}${SOURCE_SUFFIX}:${SOURCE_TAG} as kernel-query
-RUN rpm -qa kernel --queryformat '%{VERSION}-%{RELEASE}.%{ARCH}' > /kernel-version.txt
-
-# Using https://openzfs.github.io/openzfs-docs/Developer%20Resources/Custom%20Packages.html
-FROM registry.fedoraproject.org/fedora:${FEDORA_VERSION} as builder
-COPY --from=kernel-query /kernel-version.txt /kernel-version.txt
-WORKDIR /etc/yum.repos.d
-RUN curl -L -O https://src.fedoraproject.org/rpms/fedora-repos/raw/f${FEDORA_VERSION}/f/fedora-updates-archive.repo && \
-    sed -i 's/enabled=AUTO_VALUE/enabled=true/' fedora-updates-archive.repo
-RUN dnf install -y jq dkms gcc make autoconf automake libtool rpm-build libtirpc-devel libblkid-devel \
-    libuuid-devel libudev-devel openssl-devel zlib-devel libaio-devel libattr-devel elfutils-libelf-devel \
-    kernel-$(cat /kernel-version.txt) kernel-modules-$(cat /kernel-version.txt) kernel-devel-$(cat /kernel-version.txt) \
-    python3 python3-devel python3-setuptools python3-cffi libffi-devel git ncompress libcurl-devel
-WORKDIR /
-# Uses project_id from: https://release-monitoring.org/project/11706/
-RUN curl "https://release-monitoring.org/api/v2/versions/?project_id=11706" | jq --raw-output '.stable_versions[0]' >> /zfs_version.txt
-RUN curl -L -O https://github.com/openzfs/zfs/releases/download/zfs-$(cat /zfs_version.txt)/zfs-$(cat /zfs_version.txt).tar.gz && \
-    tar xzf zfs-$(cat /zfs_version.txt).tar.gz && mv zfs-$(cat /zfs_version.txt) zfs
-WORKDIR /zfs
-RUN ./configure -with-linux=/usr/src/kernels/$(cat /kernel-version.txt)/ -with-linux-obj=/usr/src/kernels/$(cat /kernel-version.txt)/ \
-    && make -j1 rpm-utils rpm-kmod
+## Cache images for CoreOS kernel & ZFS kmod RPMs
+FROM ghcr.io/ublue-os/coreos-stable-kernel:${SOURCE_TAG} AS kernel-cache
+FROM ghcr.io/ublue-os/akmods-zfs:coreos-stable-${SOURCE_TAG} AS zfs-cache
 
 
-### 3. SOURCE IMAGE
+### 2. SOURCE IMAGE
 ## this is a standard Containerfile FROM using the build ARGs above to select the right upstream image
 FROM ghcr.io/ublue-os/${SOURCE_IMAGE}${SOURCE_SUFFIX}:${SOURCE_TAG}
 
-### 4 Add ZFS RPMS and matching kernel RPMs
-#COPY --from=ghcr.io/0ranki/sb-zfs-kernel /rpms/ /tmp/rpms
-COPY --from=builder /zfs/*.rpm /zfs/
+### 3. Add ZFS RPMS and matching kernel RPMs
+# COPY --from=kernel-cache /tmp/rpms/* /tmp/rpms/
+# COPY --from=zfs-cache /rpms/kmods/zfs/*.rpm /tmp/rpms/
 
-### 5. MODIFICATIONS
+### 4. MODIFICATIONS
 ## make modifications desired in your image and install packages by modifying the build.sh script
 ## the following RUN directive does all the things required to run "build.sh" as recommended.
 
 COPY build.sh /tmp/build.sh
 
-RUN mkdir -p /var/lib/alternatives && \
+RUN --mount=type=bind,from=kernel-cache,src=/tmp/rpms,dst=/tmp/rpms/kernel \
+    --mount=type=bind,from=zfs-cache,src=/rpms/kmods/zfs,dst=/tmp/rpms/zfs \
+    mkdir -p /var/lib/alternatives && \
     /tmp/build.sh && \
     ostree container commit
 ## NOTES:
