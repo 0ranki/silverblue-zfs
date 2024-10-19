@@ -11,5 +11,15 @@ Image uses CoreOS' `stable` kernel from [Universal Blue kernel-cache image](http
 matching ZFS kmod RPMs from [Universal Blue `akmods-zfs` image](https://ghcr.io/ublue-os/akmods-zfs) are installed.
 
 Other additions, subject to change:
-- RPM firefox removed
 - Sanoid installed from [gregw/extras COPR](https://copr.fedorainfracloud.org/coprs/gregw/extras)
+- Other added packages (along with their deps):
+  - tailscale
+  - hstr
+  - VS Code
+  - Yaru theme
+
+## Fork & customize
+
+To fork & customize, make your necessary edits in `build.sh`.
+
+Adding or removing layered packages is simple using the `ADDPKGS` and `RMPKGS` variables in the script.
