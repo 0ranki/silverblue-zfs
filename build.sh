@@ -14,6 +14,7 @@ ADDPKGS=(
     sanoid
     tailscale
     code
+    yaru-theme
 )
 
 ### Install packages
