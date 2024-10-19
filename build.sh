@@ -13,6 +13,7 @@ ADDPKGS=(
     hstr
     sanoid
     tailscale
+    code
 )
 
 ### Install packages
