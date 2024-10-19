@@ -6,12 +6,12 @@ RELEASE="$(rpm -E %fedora)"
 
 ## Package overrides
 RMPKGS=(
-    firefox
-    firefox-langpacks
+
 )
 
 ADDPKGS=(
     sanoid
+    tailscale
 )
 
 ### Install packages
@@ -23,6 +23,18 @@ ADDPKGS=(
 
 ## Add gregw/extras COPR
 curl -so /etc/yum.repos.d/gregw-extras-fedora-40.repo https://copr.fedorainfracloud.org/coprs/gregw/extras/repo/fedora-40/gregw-extras-fedora-40.repo
+
+## Add tailscale repo
+cat << EOF > /etc/yum.repos.d/tailscale.repo
+[tailscale-stable]
+name=Tailscale stable
+baseurl=https://pkgs.tailscale.com/stable/fedora/$basearch
+enabled=1
+type=rpm
+repo_gpgcheck=1
+gpgcheck=1
+gpgkey=https://pkgs.tailscale.com/stable/fedora/repo.gpg
+EOF
 
 RMSTRING=""
 ADDSTRING=""
