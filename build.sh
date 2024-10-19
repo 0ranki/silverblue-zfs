@@ -29,7 +29,7 @@ curl -so /etc/yum.repos.d/gregw-extras-fedora-40.repo https://copr.fedorainfracl
 cat << EOF > /etc/yum.repos.d/tailscale.repo
 [tailscale-stable]
 name=Tailscale stable
-baseurl=https://pkgs.tailscale.com/stable/fedora/$basearch
+baseurl=https://pkgs.tailscale.com/stable/fedora/\$basearch
 enabled=1
 type=rpm
 repo_gpgcheck=1
