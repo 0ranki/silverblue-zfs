@@ -36,9 +36,9 @@ ARG SOURCE_IMAGE="silverblue"
 ARG SOURCE_SUFFIX="-main"
 
 ## SOURCE_TAG arg must be a version built for the specific image: eg, 39, 40, gts, latest
-ARG SOURCE_TAG="40"
+ARG SOURCE_TAG="41"
 
-ARG FEDORA_VERSION=40
+ARG FEDORA_VERSION=41
 
 ## Cache images for CoreOS kernel & ZFS kmod RPMs
 FROM ghcr.io/ublue-os/coreos-stable-kernel:${SOURCE_TAG} AS kernel-cache
