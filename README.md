@@ -1,5 +1,8 @@
 # Silverblue-ZFS
 
+# Archived in May 2025
+[Bluefin](https://projectbluefin.io/) has ZFS preinstalled nowadays, so this repository is now archived.
+
 [![build-silverblue-zfs](https://github.com/0ranki/silverblue-zfs/actions/workflows/build.yml/badge.svg)](https://github.com/0ranki/silverblue-zfs/actions/workflows/build.yml)
 
 This is a customized Universal Blue image with the OpenZFS kernel module installed.
